@@ -1,0 +1,46 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+repositories{
+	mavenCentral()
+	mavenLocal()
+}
+
+
+targetCompatibility=1.7
+sourceCompatibility=1.7
+
+configurations {
+	all*.exclude group: 'commons-logging' //http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/htmlsingle/#overview-not-using-commons-logging
+	compile.exclude module: "spring-boot-starter-jetty"
+	compile.exclude module: "hibernate-validator"
+	compile.exclude module: "spring-jdbc"
+}
+
+
+dependencies{
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'commons-io:commons-io:2.0.1'
+	compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.2.1'
+
+	testCompile 'org.testng:testng:6.8'
+	testCompile "org.springframework:spring-test:4.0.6.RELEASE"
+	testCompile 'org.mockito:mockito-all:1.9.0'
+    testCompile 'org.apache.httpcomponents:httpclient:4.4'
+}
+
+
+springBoot { mainClass = "nl.wehkamp.everest.App" }

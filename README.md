@@ -1,4 +1,4 @@
-h2. what is it?
+<h3>what is it?</h3>
 
 Simple universal mocking tool for http requests
 
@@ -6,7 +6,7 @@ Simple universal mocking tool for http requests
 - start using gradlew run
 - replay 
 
-h2. Sample json
+<h3>Sample json</h3>
 {
 "id": "91f83cd9-a0a5-49f5-b740-78ba8f504797",
 "name": "wehkamp.nl",
@@ -21,6 +21,6 @@ h2. Sample json
 
 - url can be java regex expression
 
-h2. TODO's
+<h3>TODO's</h3>
 - implement response headers
 - build a proxy that generates json

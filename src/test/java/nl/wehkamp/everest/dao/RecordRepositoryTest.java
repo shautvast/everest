@@ -21,7 +21,7 @@ public class RecordRepositoryTest {
 	@AfterMethod
 	public void teardown() throws IOException {
 		Uuids.removeTestValue();
-		Files.delete(Paths.get("everest_data", "wehkamp.nl.json"));
+		// Files.delete(Paths.get("everest_data", "wehkamp.nl.json"));
 	}
 
 	@Test

@@ -20,8 +20,8 @@ repositories{
 }
 
 
-targetCompatibility=1.7
-sourceCompatibility=1.7
+targetCompatibility=1.8
+sourceCompatibility=1.8
 
 configurations {
 	all*.exclude group: 'commons-logging' //http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/htmlsingle/#overview-not-using-commons-logging
@@ -43,4 +43,4 @@ dependencies{
 }
 
 
-springBoot { mainClass = "nl.wehkamp.everest.App" }
+springBoot { mainClass = "nl.wehkamp.everest.WebServer" }

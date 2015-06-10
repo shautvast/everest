@@ -7,17 +7,17 @@ Simple universal mocking tool for http requests
 - replay 
 
 <h3>Sample json</h3>
-{
-"id": "91f83cd9-a0a5-49f5-b740-78ba8f504797",
-"name": "wehkamp.nl",
-"url": "http://www.wehkamp.nl",
-"method": "GET",
-"requestHeaders": {
-  "Accept": ["application/json"]
-  },
-"response": "<html>",
-"responseStatus": 200
-}
+{<br/>
+"id": "91f83cd9-a0a5-49f5-b740-78ba8f504797",<br/>
+"name": "wehkamp.nl",<br/>
+"url": "http://www.wehkamp.nl",<br/>
+"method": "GET",<br/>
+"requestHeaders": {<br/>
+&nbsp;&nbsp;"Accept": ["application/json"]<br/>
+&nbsp;&nbsp;},<br/>
+"response": "<html>",<br/>
+"responseStatus": 200<br/>
+}<br/>
 
 - url can be java regex expression
 

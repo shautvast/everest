@@ -1,8 +1,9 @@
 <h3>what is it?</h3>
 
 Simple universal mocking tool for http requests
-
-- set up expectations using json files in $PROJECT/everest directory
+- requires java 8
+- set up expectations using json files in $PROJECT/everest_data directory
+-- or start java with -Deverest.data=[..] for a different data directory
 - start using gradlew run
 - replay 
 

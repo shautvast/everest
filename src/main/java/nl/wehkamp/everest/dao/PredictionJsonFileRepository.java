@@ -32,15 +32,15 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Component("requestResponseRepository")
-public class RequestResponseJsonFileRepository extends RequestResponseMemoryRepository {
-	private static final Logger log = LoggerFactory.getLogger(RequestResponseJsonFileRepository.class);
+@Component
+public class PredictionJsonFileRepository extends PredictionMemoryRepository {
+	private static final Logger log = LoggerFactory.getLogger(PredictionJsonFileRepository.class);
 
 	private String dataDirectoryName = System.getProperty("everest.data", "everest_data");
 
 	private ObjectMapper jackson = new ObjectMapper();
 
-	public RequestResponseJsonFileRepository() {
+	public PredictionJsonFileRepository() {
 		createDataDirectoryIfAbsent();
 		fillCacheIfEmpty();
 	}
@@ -55,7 +55,9 @@ public class RequestResponseJsonFileRepository extends RequestResponseMemoryRepo
 			throw new RuntimeException(e);
 		} finally {
 			try {
-				os.close();
+				if (os != null) {
+					os.close();
+				}
 			} catch (IOException e) {
 			}
 		}

@@ -11,6 +11,7 @@ import java.util.List;
 
 import nl.wehkamp.everest.model.Headers;
 import nl.wehkamp.everest.model.Prediction;
+import nl.wehkamp.everest.util.FileLoader;
 import nl.wehkamp.everest.util.Uuids;
 
 import org.testng.annotations.AfterMethod;
@@ -37,15 +38,13 @@ public class RecordRepositoryTest {
 		record.setHeaders(headers);
 		record.setResponseStatus(200);
 		record.setResponse("<html>");
-		new RequestResponseJsonFileRepository().save(record);
+		new PredictionJsonFileRepository().save(record);
 
 		List<String> lines = Files.readAllLines(Paths.get("everest_data", "wehkamp.nl.json"), StandardCharsets.UTF_8);
 
 		assertFalse(lines.isEmpty());
 		System.out.println(lines.get(0));
 
-		assertEquals(
-				lines.get(0),
-				"{\"id\":\"91f83cd9-a0a5-49f5-b740-78ba8f504797\",\"name\":\"wehkamp.nl\",\"url\":\"http://www.wehkamp.nl\",\"method\":\"GET\",\"requestHeaders\":{\"Accept\":[\"application/json\"]},\"response\":\"<html>\",\"responseStatus\":200}");
+		assertEquals(lines.get(0), FileLoader.load("test.json"));
 	}
 }

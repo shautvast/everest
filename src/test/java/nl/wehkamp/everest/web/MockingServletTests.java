@@ -1,11 +1,11 @@
 package nl.wehkamp.everest.web;
 
 import static java.util.Collections.singletonMap;
-import static nl.wehkamp.everest.web.TestClient.get;
-import static nl.wehkamp.everest.web.TestClient.post;
+import static nl.wehkamp.everest.util.TestClient.httpGet;
+import static nl.wehkamp.everest.util.TestClient.httpPost;
 import static org.testng.Assert.assertEquals;
 import nl.wehkamp.everest.WebServer;
-import nl.wehkamp.everest.dao.RequestResponseMemoryRepository;
+import nl.wehkamp.everest.dao.PredictionMemoryRepository;
 import nl.wehkamp.everest.model.Prediction;
 import nl.wehkamp.everest.service.ResponseFinder;
 
@@ -18,14 +18,14 @@ import org.testng.annotations.Test;
  */
 public class MockingServletTests {
 
-	private RequestResponseMemoryRepository requestResponseRepository;
+	private PredictionMemoryRepository requestResponseRepository;
 
 	@BeforeSuite
 	public void setup() {
 		WebServer.start();
 		ResponseFinder responseFinder = WebServer.instance.getBean(ResponseFinder.class);
-		requestResponseRepository = new RequestResponseMemoryRepository();
-		responseFinder.setRequestResponseRepository(requestResponseRepository);
+		requestResponseRepository = new PredictionMemoryRepository();
+		responseFinder.setPredictionRepository(requestResponseRepository);
 	}
 
 	@AfterMethod
@@ -41,7 +41,7 @@ public class MockingServletTests {
 		record.setResponse("get successful");
 		record.setResponseStatus(200);
 		requestResponseRepository.save(record);
-		assertEquals(get("/testget"), "200:get successful");
+		assertEquals(httpGet("/testget"), "200:get successful");
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class MockingServletTests {
 		record.setResponse("getWithHeader successful");
 		record.setResponseStatus(200);
 		requestResponseRepository.save(record);
-		assertEquals(get("/testget", singletonMap("Content-Type", "application/json")), "200:getWithHeader successful");
+		assertEquals(httpGet("/testget", singletonMap("Content-Type", "application/json")), "200:getWithHeader successful");
 	}
 
 	@Test
@@ -65,7 +65,7 @@ public class MockingServletTests {
 		record.setResponse("getWithHeader successful");
 		record.setResponseStatus(200);
 		requestResponseRepository.save(record);
-		assertEquals(get("/testget", singletonMap("Content-Type", "application/json")), "404:Not found");
+		assertEquals(httpGet("/testget", singletonMap("Content-Type", "application/json")), "404:Not found");
 	}
 
 	@Test
@@ -76,7 +76,7 @@ public class MockingServletTests {
 		record.setResponse("get wildcard successful");
 		record.setResponseStatus(200);
 		requestResponseRepository.save(record);
-		assertEquals(get("/testget/foo"), "200:get wildcard successful");
+		assertEquals(httpGet("/testget/foo"), "200:get wildcard successful");
 	}
 
 	@Test
@@ -87,6 +87,6 @@ public class MockingServletTests {
 		record.setResponse("post successful");
 		record.setResponseStatus(200);
 		requestResponseRepository.save(record);
-		assertEquals(post("/testpost", "body"), "200:post successful");
+		assertEquals(httpPost("/testpost", "body"), "200:post successful");
 	}
 }

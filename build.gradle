@@ -35,6 +35,7 @@ dependencies{
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'commons-io:commons-io:2.0.1'
 	compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.2.1'
+//	compile 'org.littleshoot:littleproxy:1.0.0-beta7'
 
 	testCompile 'org.testng:testng:6.8'
 	testCompile "org.springframework:spring-test:4.0.6.RELEASE"

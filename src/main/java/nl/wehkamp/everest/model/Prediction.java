@@ -1,7 +1,10 @@
 package nl.wehkamp.everest.model;
 
+import static java.util.Optional.empty;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import nl.wehkamp.everest.util.Uuids;
@@ -18,6 +21,7 @@ public class Prediction {
 
 	private String response;
 	private int responseStatus;
+	private Optional<Headers> responseHeaders = empty();
 
 	public boolean requestMatches(String requesturl) {
 		return urlPattern.matcher(requesturl).matches();
@@ -28,13 +32,14 @@ public class Prediction {
 	}
 
 	private Prediction(Dto predictionDto) {
-		this.id = predictionDto.id;
+		this.id = predictionDto.id != null ? predictionDto.id : Uuids.create();
 		this.name = predictionDto.name;
 		setUrl(predictionDto.url);
 		this.method = predictionDto.method;
 		this.requestHeaders = new Headers(predictionDto.requestHeaders);
 		this.response = predictionDto.response;
 		this.responseStatus = predictionDto.responseStatus;
+		this.responseHeaders = predictionDto.getResponseHeaders() != null ? Optional.of(new Headers(predictionDto.getResponseHeaders())) : empty();
 	}
 
 	public String getMethod() {
@@ -89,6 +94,18 @@ public class Prediction {
 		this.responseStatus = responseStatus;
 	}
 
+	public boolean hasReponseHeaders() {
+		return responseHeaders.isPresent();
+	}
+
+	public Headers getResponseHeaders() {
+		return responseHeaders.get();
+	}
+
+	public void setResponseHeaders(Headers responseHeaders) {
+		this.responseHeaders = Optional.ofNullable(responseHeaders);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -114,7 +131,7 @@ public class Prediction {
 		return true;
 	}
 
-	public boolean containsHeaders() {
+	public boolean containsRequestHeaders() {
 		return requestHeaders != null && requestHeaders.areSet();
 	}
 
@@ -124,7 +141,8 @@ public class Prediction {
 	}
 
 	public Dto toDto() {
-		return new Dto(id, name, url, method, requestHeaders.getContent(), response, responseStatus);
+		Map<String, List<String>> responseHeaderMap = hasReponseHeaders() ? getResponseHeaders().getContent() : null;
+		return new Dto(id, name, url, method, requestHeaders.getContent(), response, responseStatus, responseHeaderMap);
 	}
 
 	public static Prediction fromDto(Dto predictionDto) {
@@ -141,11 +159,13 @@ public class Prediction {
 
 		private String response;
 		private int responseStatus;
+		private Map<String, List<String>> responseHeaders;
 
 		public Dto() {
 		}
 
-		private Dto(String id, String name, String url, String method, Map<String, List<String>> requestHeaders, String response, int responseStatus) {
+		private Dto(String id, String name, String url, String method, Map<String, List<String>> requestHeaders, String response, int responseStatus,
+				Map<String, List<String>> responseHeaders) {
 			super();
 			this.id = id;
 			this.name = name;
@@ -154,6 +174,7 @@ public class Prediction {
 			this.requestHeaders = requestHeaders;
 			this.response = response;
 			this.responseStatus = responseStatus;
+			this.responseHeaders = responseHeaders;
 		}
 
 		public String getId() {
@@ -210,6 +231,14 @@ public class Prediction {
 
 		public void setResponseStatus(int responseStatus) {
 			this.responseStatus = responseStatus;
+		}
+
+		public Map<String, List<String>> getResponseHeaders() {
+			return responseHeaders;
+		}
+
+		public void setResponseHeaders(Map<String, List<String>> responseHeaders) {
+			this.responseHeaders = responseHeaders;
 		}
 
 		@Override

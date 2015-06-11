@@ -4,9 +4,9 @@ import java.util.Set;
 
 import nl.wehkamp.everest.model.Prediction;
 
-public interface RequestResponseRepository {
+public interface PredictionRepository {
 
-	void save(Prediction record);
+	void save(Prediction prediction);
 
 	Set<Prediction> findAll();
 

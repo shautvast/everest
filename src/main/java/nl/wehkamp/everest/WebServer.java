@@ -2,7 +2,7 @@ package nl.wehkamp.everest;
 
 import javax.servlet.Servlet;
 
-import nl.wehkamp.everest.web.MockingServlet;
+import nl.wehkamp.everest.web.PredictableResponseServlet;
 
 import org.springframework.beans.BeansException;
 import org.springframework.boot.SpringApplication;
@@ -30,12 +30,12 @@ public class WebServer implements ApplicationContextAware {
 
 	@Bean
 	public ServletRegistrationBean servletRegistrationBean() {
-		return new ServletRegistrationBean(mockingServlet(), "/*");
+		return new ServletRegistrationBean(predictableResponseServlet(), "/*");
 	}
 
 	@Bean
-	public Servlet mockingServlet() {
-		return new MockingServlet();
+	public Servlet predictableResponseServlet() {
+		return new PredictableResponseServlet();
 	}
 
 	public static void main(String[] args) {

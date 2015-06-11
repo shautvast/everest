@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,6 +33,10 @@ public class Headers {
 		} else {
 			return list.get(0);
 		}
+	}
+
+	public Set<String> getHeaderNames() {
+		return headers.keySet();
 	}
 
 	/**

@@ -23,11 +23,11 @@ Simple universal mocking tool for http requests
 }<br/>
 
 - url can be java regex expression
-- json files are reloaded on the fly
 
 <h4>api for json upload</h4>
 - the JSON above can be uploaded to a running server using a POST to http://[server]:[port]/__api/upload
 - use Content-Type=application/json  
 
 <h3>TODO's</h3>
+- reload json files on the fly
 - build a proxy that generates the json from actual requests/responses

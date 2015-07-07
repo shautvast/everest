@@ -81,10 +81,13 @@ public class PredictionJsonFileRepository extends PredictionMemoryRepository {
 		try {
 			DirectoryStream<Path> directoryStream = newDirectoryStream(get(dataDirectoryName));
 			for (Path pathForJsonFile : directoryStream) {
-				Prediction requestResponse = readRequestResponseFromJson(pathForJsonFile);
-				requestResponse.setName(filename(pathForJsonFile));
-				cache.add(requestResponse);
-				log.info("reading {} into memory, mapping path {}", pathForJsonFile, requestResponse.getUrl());
+				if (pathForJsonFile.toString().endsWith(".json")) {
+					log.info("reading {}", pathForJsonFile);
+					Prediction requestResponse = readRequestResponseFromJson(pathForJsonFile);
+					requestResponse.setName(filename(pathForJsonFile));
+					cache.add(requestResponse);
+					log.info("reading {} into memory, mapping path {}", pathForJsonFile, requestResponse.getUrl());
+				}
 			}
 		} catch (IOException x) {
 			throw new RuntimeException(x);

@@ -18,13 +18,14 @@ public class Prediction {
 	private String url;
 	private String method;
 	private Headers requestHeaders;
+	private String requestBody = "";
 
 	private String response;
 	private int responseStatus;
 	private Optional<Headers> responseHeaders = empty();
 
-	public boolean requestMatches(String requesturl) {
-		return urlPattern.matcher(requesturl).matches();
+	public boolean requestUrlMatches(String requesturl) {
+		return urlPattern.matcher(requesturl).find();
 	}
 
 	public Prediction() {
@@ -37,6 +38,7 @@ public class Prediction {
 		setUrl(predictionDto.url);
 		this.method = predictionDto.method;
 		this.requestHeaders = new Headers(predictionDto.requestHeaders);
+		this.requestBody = predictionDto.requestBody;
 		this.response = predictionDto.response;
 		this.responseStatus = predictionDto.responseStatus;
 		this.responseHeaders = predictionDto.getResponseHeaders() != null ? Optional.of(new Headers(predictionDto.getResponseHeaders())) : empty();
@@ -106,6 +108,14 @@ public class Prediction {
 		this.responseHeaders = Optional.ofNullable(responseHeaders);
 	}
 
+	public String getRequestBody() {
+		return requestBody;
+	}
+
+	public void setRequestBody(String requestBody) {
+		this.requestBody = requestBody;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -155,6 +165,7 @@ public class Prediction {
 
 		private String url;
 		private String method;
+		private String requestBody;
 		private Map<String, List<String>> requestHeaders;
 
 		private String response;
@@ -215,6 +226,14 @@ public class Prediction {
 
 		public void setRequestHeaders(Map<String, List<String>> requestHeaders) {
 			this.requestHeaders = requestHeaders;
+		}
+
+		public String getRequestBody() {
+			return requestBody;
+		}
+
+		public void setRequestBody(String requestBody) {
+			this.requestBody = requestBody;
 		}
 
 		public String getResponse() {

@@ -8,6 +8,8 @@
  */
 package nl.wehkamp.everest.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,16 +34,39 @@ public class ResponseFinder {
 
 		Set<Prediction> all = predictionJsonFileRepository.findAll();
 		for (Prediction prediction : all) {
+			response = matchRequestBody(request, response, prediction);
+		}
+		return response;
+	}
+
+	private Optional<Prediction> matchRequestBody(HttpServletRequest request, Optional<Prediction> response, Prediction prediction) {
+		String requestbody = getBody(request);
+		if (prediction.getRequestBody().equals(requestbody)) {
 			response = matchUrlAndMethodAndHeaders(request, response, prediction);
 		}
 		return response;
 	}
 
 	private Optional<Prediction> matchUrlAndMethodAndHeaders(HttpServletRequest request, Optional<Prediction> response, Prediction prediction) {
-		if (prediction.requestMatches(request.getPathInfo())) {
+		if (prediction.requestUrlMatches(request.getPathInfo())) {
 			response = matchMethodAndHeaders(request, response, prediction);
 		}
 		return response;
+	}
+
+	private String getBody(HttpServletRequest request) {
+		BufferedReader reader;
+		try {
+			reader = request.getReader();
+			String line = null;
+			StringBuilder buffer = new StringBuilder();
+			while ((line = reader.readLine()) != null) {
+				buffer.append(line);
+			}
+			return buffer.toString();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private Optional<Prediction> matchMethodAndHeaders(HttpServletRequest request, Optional<Prediction> response, Prediction prediction) {
